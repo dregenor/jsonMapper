@@ -65,3 +65,16 @@ console.log('\nresult1 and result2 Must be:\n',{
     nick: 'FOfan',
     xs: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 });
+
+
+var data3  = A.applySchema(obj,{
+    uuid:"uuid",
+    user_name:"user.name",
+    nick:"user.nickname",
+    xs:{
+        zero_x:"locations.0.x",
+        zero_y:"locations.0.y"
+    }
+});
+
+console.log('\n\n Data3:',data3);

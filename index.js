@@ -40,17 +40,12 @@ var getValByPath = module.exports.getValByPath = function (path,obj){
  */
 var ch = module.exports.ch = function(){
     var chain = [].slice.call(arguments);
+    chain = chain.map(makeCb);
 
     return function(input){
-        var result = input;
-        chain.forEach(function(fn){
-            if (typeof fn === "function"){
-                result = fn(result)
-            } else if (typeof fn === "string" ){
-                result = getValByPath(fn,result)
-            }
-        });
-        return result;
+        return chain.reduce(function(tail,cb){
+            return cb(tail)
+        },input);
     }
 };
 
@@ -67,14 +62,7 @@ var applySchema = module.exports.applySchema = function(input,schema){
         if (schema.hasOwnProperty(par)){
             var pth = schema[par];
 
-            var val;
-            if (typeof pth === "string"){
-                val = getValByPath(pth,input); // pth == "user.name"
-            } else if (typeof pth === "function"){
-                val = pth(input);
-            } else if (pth instanceof Array){
-                val = (ch.apply(null,pth))(input);
-            }
+            var val = makeCb(pth)(input);
 
             if ( typeof val !== "undefined" ){
                 output[par] = val;
@@ -89,7 +77,7 @@ var applySchema = module.exports.applySchema = function(input,schema){
  * @param schema
  * @returns {Function}
  */
-module.exports.schema = function(schema){
+var schema = module.exports.schema = function(schema){
     return function(input){
         return applySchema(input,schema)
     }
@@ -112,18 +100,28 @@ var getVal = module.exports.getVal = function(pth){
  * @param {Function|String} cb
  * @returns {Function}
  */
-module.exports.map = function(cb){
+module.exports.map = function(fn){
 
-    var fn;
-    if (typeof cb === "string"){
-        fn = getVal(cb);
-    } else {
-        fn = cb;
-    }
+    var cb = makeCb(fn);
+
     return function(input){
         if (input instanceof Array){
-            return input.map(fn)
+            return input.map(cb)
         }
+    }
+};
+
+var makeCb = module.exports.makeCb = function(fn){
+    if (typeof fn === "string"){
+        return getVal(fn);
+    } else if (typeof fn === "function"){
+        return fn;
+    } else if (fn instanceof Array){
+        return ch.apply(null,fn);
+    } else if ((typeof fn == "object") && (fn !== null)){
+        return schema(fn);
+    } else {
+        return function(){};
     }
 };
 
