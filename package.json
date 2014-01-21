@@ -1,0 +1,25 @@
+{
+  "name": "jsonMapper",
+  "version": "0.0.0",
+  "description": "simple json mapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dregenor/jsonMapper.git"
+  },
+  "keywords": [
+    "json",
+    "map",
+    "transform"
+  ],
+  "author": "dregenor",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
+  "bugs": {
+    "url": "https://github.com/dregenor/jsonMapper/issues"
+  }
+}
