@@ -1,13 +1,19 @@
 jsonMapper
 ==========
 
-simple json mapper
+Simple json mapper
+
+- [How to use](#how-to-use)
+- [Shut up and show me SIMPLE convert](#shut-up-and-show-me-simple-convert)
+- [Helpers](#helpers)
 
 
-how to use
+
+
+How to use
 ----------
 
-wery simple case
+Wery simple case
 
 
 ```js
