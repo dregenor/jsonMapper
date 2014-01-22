@@ -1,4 +1,4 @@
-jsonMapper
+json-mapper
 ==========
 
 Simple json mapper
@@ -6,8 +6,6 @@ Simple json mapper
 - [How to use](#how-to-use)
 - [Shut up and show me SIMPLE convert](#shut-up-and-show-me-simple-convert)
 - [Helpers](#helpers)
-
-
 
 
 How to use
@@ -24,7 +22,7 @@ var input = {
     }
 };
 
-var JM = require('jsonMapper');
+var JM = require('json-mapper');
 
 var converter =  JM.makeConverter({
     name:function(input){
@@ -91,7 +89,7 @@ var input = {
 };
 
 
-var JM = require('jsonMapper');
+var JM = require('json-mapper');
 
 var converter  = JM.makeConverter({
     val : JM.ch(
@@ -134,7 +132,7 @@ var input = {
 };
 
 
-var JM = require('jsonMapper');
+var JM = require('json-mapper');
 
 var converter  = JM.makeConverter({
     val : [  function(input){ return input.locations; },
@@ -177,7 +175,7 @@ var input = {
 };
 
 
-var JM = require('jsonMapper');
+var JM = require('json-mapper');
 
 var converter  = JM.makeConverter({
     val : JM.ch("locations", JM.map(function(input){ return input.x }))
@@ -235,7 +233,7 @@ var input = {
 };
 
 
-var JM = require('jsonMapper');
+var JM = require('json-mapper');
 
 var converter  = JM.makeConverter({
     all_x : ["locations", JM.map("x")],
@@ -264,15 +262,15 @@ result is
 
 ```json
 {
-  all_x:   [ 1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12 ],
-  all_y:   [ 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 ],
-  x_sum_y: [ 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44 ],
-  locations_count: 12,
-  locations_count_hack: 12,
-  just_mappet_name: 'Alex',
-  another_object: {
-    nickname: 'FOfan',
-    location_0_x: 1
+  "all_x":   [ 1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12 ],
+  "all_y":   [ 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 ],
+  "x_sum_y": [ 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44 ],
+  "locations_count": 12,
+  "locations_count_hack": 12,
+  "just_mappet_name": "Alex",
+  "another_object": {
+    "nickname": "FOfan",
+    "location_0_x": 1
   }
 }
 ```
@@ -286,7 +284,7 @@ just example
 
 ```js
 
-var JM = require('./index.js');
+var JM = require('json-mapper');
 
 var input = {
     uuid:"1233123123",
@@ -318,6 +316,30 @@ var converter = JM.makeConverter({
     })]
 });
 
-console.log('\n\n\n\ convert with template',converter(input));
+console.log('\n\n\n convert with template \n\n', converter(input));
+
+```
+
+Result:
+
+```json 
+ {
+  "uuid": "1233123123",
+  "href": "http://127.0.0.1/users/?name=sergey",
+  "objects": [ 
+      { "href": "http://127.0.0.1/objects/1001" },
+      { "href": "http://127.0.0.1/objects/1002" },
+      { "href": "http://127.0.0.1/objects/1003" },
+      { "href": "http://127.0.0.1/objects/1004" },
+      { "href": "http://127.0.0.1/objects/1005" },
+      { "href": "http://127.0.0.1/objects/1006" },
+      { "href": "http://127.0.0.1/objects/1007" },
+      { "href": "http://127.0.0.1/objects/1008" },
+      { "href": "http://127.0.0.1/objects/1009" },
+      { "href": "http://127.0.0.1/objects/1010" },
+      { "href": "http://127.0.0.1/objects/1011" },
+      { "href": "http://127.0.0.1/objects/1012" }
+     ]
+ }
 
 ```
