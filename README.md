@@ -46,7 +46,7 @@ var converter =  JM.makeConverter({
 });
 ```
 
-And if i write just "user.name" it is be synonym JV.getVal("user.name")
+And if i write just "user.name" it is be synonym JM.getVal("user.name")
 
 
 ```js
