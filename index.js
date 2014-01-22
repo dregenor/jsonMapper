@@ -76,7 +76,7 @@ var applySchema = module.exports.applySchema = function(input,schema){
  * @param schema
  * @returns {Function}
  */
-var schema = module.exports.schema = function(schema){
+var makeConverter = module.exports.makeConverter = function(schema){
 
     // предварительно приводим схему к кэллбек виду
     for (var par in schema ){
@@ -113,7 +113,7 @@ module.exports.map = function(fn){
 
     return function(input){
         if (input instanceof Array){
-            return input.map(cb)
+            return input.map(cb);
         }
     }
 };
@@ -126,7 +126,7 @@ var makeCb = module.exports.makeCb = function(fn){
     } else if (fn instanceof Array){
         return ch.apply(null,fn);
     } else if ((typeof fn == "object") && (fn !== null)){
-        return schema(fn);
+        return makeConverter(fn);
     } else {
         return function(){};
     }

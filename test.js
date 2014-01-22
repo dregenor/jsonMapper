@@ -24,7 +24,7 @@ var obj = {
 
 console.log('input:',obj);
 
-var data1  = A.schema({
+var data1  = A.makeConverter({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
@@ -41,7 +41,7 @@ var schema1 = {
 console.log( '\nschema1:\n', schema1 );
 console.log( '\nresult1:\n', data1);
 
-var data2 = A.schema({
+var data2 = A.makeConverter({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
@@ -67,7 +67,7 @@ console.log('\nresult1 and result2 Must be:\n',{
 });
 
 
-var data3  = A.schema({
+var converter3  = A.makeConverter({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
@@ -80,6 +80,56 @@ var data3  = A.schema({
         zero_x:"locations.0.x",
         zero_y:"locations.0.y"
     }
-})(obj);
+});
+
+var data3 = converter3(obj);
 
 console.log('\n\n Data3:',data3);
+
+(function(){
+    var input = {
+        user:{
+            name:"Alex",
+            nickname:"FOfan"
+        },
+        locations:[
+            {x:1,y:21}, // i need this x
+            {x:2,y:22},
+            {x:3,y:23},
+            {x:4,y:24},
+            {x:5,y:25},
+            {x:6,y:26},
+            {x:7,y:27},
+            {x:8,y:28},
+            {x:9,y:29},
+            {x:10,y:30},
+            {x:11,y:31},
+            {x:12,y:32}
+        ],
+        uuid:'ffffffff-aaaaaaaa-c0c0afafc1c1fefe0-cfcf1234'
+    };
+
+
+    var JM = require('./index.js');
+
+    var converter  = JM.makeConverter({
+        all_x : ["locations", JM.map("x")],
+        all_y : ["locations", JM.map("y")],
+        x_sum_y: ["locations", JM.map(function(input){
+            return input.x + input.y
+        })],
+        locations_count:["locations",function(arr){
+            return arr.length;
+        }],
+        locations_count_hack:"locations.length",
+        just_mappet_name:"user.name",
+        another_object:{
+            nickname:"user.name",
+            location_0_x:"locations.0.x"
+        }
+    });
+
+    var result = converter(input);
+
+    console.log(result);
+})();
