@@ -157,14 +157,10 @@ module.exports.helpers = {
         });
 
         return function(input){
-            return paths.reduce(function(val,itm){
-                if (strong){
-                    if (typeof itm.cb(input) === "undefined"){
-                        return;
-                    }
-                }
-                if (!typeof  val === "undefined"){
-                   return val.replace( itm.pth, itm.cb(input) );
+            return paths.reduce(function(tail,itm){
+                var val = itm.cb(input);
+                if (typeof  tail !== "undefined" && !(strong && typeof val === "undefined")){
+                   return tail.replace( itm.pth, val );
                 }
             },tpl);
         }

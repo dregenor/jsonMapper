@@ -133,3 +133,41 @@ console.log('\n\n Data3:',data3);
 
     console.log('\n\n\nExample of simple mapping',result);
 })();
+
+
+(function(){
+    var JM = require('./index.js');
+
+    var input = {
+        uuid:"1233123123",
+        user:{
+            name:"sergey"
+        },
+        objects:[
+            {id:1001,name:"atoken"},
+            {id:1002,name:"btoken"},
+            {id:1003,name:"ctoken"},
+            {id:1004,name:"dtoken"},
+            {id:1005,name:"etoken"},
+            {id:1006,name:"Fplane"},
+            {id:1007,name:"Splane"},
+            {id:1008,name:"nodejs"},
+            {id:1009,name:"memcache"},
+            {id:1010,name:"sql"},
+            {id:1011,name:"tpl"},
+            {id:1012,name:"ejs"}
+        ]
+    };
+
+
+    var converter = JM.makeConverter({
+        uuid:"uuid",
+        href:JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+        objects:["objects",JM.map({
+            href:JM.helpers.templateStrong("http://127.0.0.1/objects/{id}")
+        })]
+    });
+
+    console.log('\n\n\n\ convert with template',converter(input));
+
+})();
