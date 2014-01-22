@@ -71,7 +71,11 @@ var data3  = A.schema({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
-    tplstr: A.helpers.template("siski {user.name}, piski {locations.0.x}"),
+    tplstr: function(input){
+        if (A.getVal("user.name")(input)){
+            return A.helpers.template("siski {user.name}, piski {locations.0.x}")(input)
+        }
+    },
     xs:{
         zero_x:"locations.0.x",
         zero_y:"locations.0.y"

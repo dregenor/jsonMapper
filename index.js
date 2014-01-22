@@ -138,7 +138,7 @@ module.exports.helpers = {
      * @param {string} tpl
      * @returns {Function}
      */
-    template:function(tpl){
+    template:function(tpl,strong){
 
         // парсим темплейт
         var finder = /\{([^\}]+\})/g,
@@ -158,8 +158,19 @@ module.exports.helpers = {
 
         return function(input){
             return paths.reduce(function(val,itm){
-                return val.replace( itm.pth, itm.cb(input) );
+                if (strong){
+                    if (typeof itm.cb(input) === "undefined"){
+                        return;
+                    }
+                }
+                if (!typeof  val === "undefined"){
+                   return val.replace( itm.pth, itm.cb(input) );
+                }
             },tpl);
         }
+    },
+
+    templateStrong:function(tpl){
+        return module.exports.helpers.template(tpl,true);
     }
 };
