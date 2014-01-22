@@ -197,7 +197,7 @@ if val is array then return ch.apply(null,val);
 if val is hash then return schema(val);
 
 
-ShutUp and show me Simple convert
+Shut up and show me SIMPLE convert
 --------
 
 ok
@@ -240,7 +240,7 @@ var converter  = JM.makeConverter({
     locations_count_hack:"locations.length",
     just_mappet_name:"user.name",
     another_object:{
-        nickname:"user.name",
+        nickname:"user.nickname",
         location_0_x:"locations.0.x"
     }
 });
@@ -262,7 +262,7 @@ result is
   locations_count_hack: 12,
   just_mappet_name: 'Alex',
   another_object: {
-    nickname: 'Alex',
+    nickname: 'FOfan',
     location_0_x: 1
   }
 }

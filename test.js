@@ -131,5 +131,5 @@ console.log('\n\n Data3:',data3);
 
     var result = converter(input);
 
-    console.log(result);
+    console.log('\n\n\nExample of simple mapping',result);
 })();
