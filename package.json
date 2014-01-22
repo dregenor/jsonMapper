@@ -1,7 +1,7 @@
 {
   "name": "jsonMapper",
   "version": "0.0.1",
-  "description": "simple json mapper",
+  "description": "simple json mapper to ",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
@@ -13,7 +13,11 @@
   "keywords": [
     "json",
     "map",
-    "transform"
+    "mapper",
+    "transform",
+    "transformation",
+    "json to json",
+    "converter"
   ],
   "author": "dregenor",
   "license": "MIT",
