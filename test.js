@@ -24,12 +24,12 @@ var obj = {
 
 console.log('input:',obj);
 
-var data1  = A.applySchema(obj,{
+var data1  = A.schema({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
     xs:["locations", A.map("x")]
-});
+})(obj);
 
 var schema1 = {
     uuid:"uuid",
@@ -41,12 +41,12 @@ var schema1 = {
 console.log( '\nschema1:\n', schema1 );
 console.log( '\nresult1:\n', data1);
 
-var data2 = A.applySchema(obj,{
+var data2 = A.schema({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
     xs: A.ch(A.getVal("locations"), A.map(A.getVal("x")))
-});
+})(obj);
 
 var schema2 = {
     uuid:"uuid",
@@ -67,14 +67,15 @@ console.log('\nresult1 and result2 Must be:\n',{
 });
 
 
-var data3  = A.applySchema(obj,{
+var data3  = A.schema({
     uuid:"uuid",
     user_name:"user.name",
     nick:"user.nickname",
+    tplstr: A.helpers.template("siski {user.name}, piski {locations.0.x}"),
     xs:{
         zero_x:"locations.0.x",
         zero_y:"locations.0.y"
     }
-});
+})(obj);
 
 console.log('\n\n Data3:',data3);

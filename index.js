@@ -60,9 +60,8 @@ var applySchema = module.exports.applySchema = function(input,schema){
 
     for (var par in schema ){
         if (schema.hasOwnProperty(par)){
-            var pth = schema[par];
 
-            var val = makeCb(pth)(input);
+            var val = schema[par](input);
 
             if ( typeof val !== "undefined" ){
                 output[par] = val;
@@ -78,6 +77,14 @@ var applySchema = module.exports.applySchema = function(input,schema){
  * @returns {Function}
  */
 var schema = module.exports.schema = function(schema){
+
+    // предварительно приводим схему к кэллбек виду
+    for (var par in schema ){
+        if (schema.hasOwnProperty(par)){
+            schema[par] =  makeCb(schema[par]);
+        }
+    }
+
     return function(input){
         return applySchema(input,schema)
     }
@@ -128,19 +135,31 @@ var makeCb = module.exports.makeCb = function(fn){
 module.exports.helpers = {
     /**
      * Фабрика шаблонизатор подменяет {ключ} на соответствующее значение из input[ключ]
-     * TODO длинные пути для шаблонизации key1.subkey2.subsubkey3
-     * @param tpl
+     * @param {string} tpl
      * @returns {Function}
      */
     template:function(tpl){
-        return function(input){
-            var result = tpl;
-            for ( var key in input){
-                if (input.hasOwnProperty(key)){
-                    result = result.replace( '{' + key + '}' , input[ key ] );
-                }
+
+        // парсим темплейт
+        var finder = /\{([^\}]+\})/g,
+            paths =  tpl.match(finder);
+
+        if ((paths === null) || (paths.length == 0)){
+            paths = [];
+        }
+
+        //делам геттеры для плейсхолдеров
+        paths = paths.map(function(pth){
+            return {
+                pth : pth,
+                cb  : makeCb(pth.slice(1,pth.length-1))
             }
-            return result;
+        });
+
+        return function(input){
+            return paths.reduce(function(val,itm){
+                return val.replace( itm.pth, itm.cb(input) );
+            },tpl);
         }
     }
 };
