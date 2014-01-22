@@ -191,10 +191,13 @@ or
 
 for simple conver path to getVal callback i use JM.makeCb(val);
 
-if val is function then it is just return
-if val is string then return getVal(val)
-if val is array then return ch.apply(null,val);
-if val is hash then return schema(val);
+if val is function then it is just return.
+
+if val is string then return getVal(val).
+
+if val is array then return ch.apply(null,val); .
+
+if val is hash then return schema(val); .
 
 
 Shut up and show me SIMPLE convert
