@@ -25,6 +25,9 @@ var getValByPath = module.exports.getValByPath = function (path,obj){
         if (typeof trg === "undefined" || typeof trg === "string" || typeof trg === "number"){
             return;
         }
+        if (pthChunk === '$root'){
+            return (trg);
+        }
         trg = trg[pthChunk];
     });
     return trg;
@@ -78,6 +81,9 @@ var applySchema = module.exports.applySchema = function(input,schema){
  */
 var makeConverter = module.exports.makeConverter = function(schema){
 
+    if (Object.prototype.toString.call(schema) !== "[object Object]" && !(schema instanceof Array) ){
+        throw "schema must be Object or Array";
+    }
     // предварительно приводим схему к кэллбек виду
     for (var par in schema ){
         if (schema.hasOwnProperty(par)){
@@ -104,7 +110,7 @@ var getVal = module.exports.getVal = function(pth){
 
 /**
  * генерирует фабрику делающую map с приминением заранее заданноко кэллбека
- * @param {Function|String} cb
+ * @param {Function|String} fn
  * @returns {Function}
  */
 module.exports.map = function(fn){
@@ -115,6 +121,7 @@ module.exports.map = function(fn){
         if (input instanceof Array){
             return input.map(cb);
         }
+        return void 0;
     }
 };
 
@@ -168,5 +175,23 @@ module.exports.helpers = {
 
     templateStrong:function(tpl){
         return module.exports.helpers.template(tpl,true);
+    },
+
+    def:function(val){
+        return function(){
+            return val;
+        }
+    },
+
+    valOrDef:function(def){
+        return function(input){
+            return input || def;
+        }
+    },
+
+    dict:function(dictionary){
+        return function(key){
+            return dictionary[key]
+        }
     }
 };

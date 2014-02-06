@@ -161,8 +161,11 @@ console.log('\n\n Data3:',data3);
 
 
     var converter = JM.makeConverter({
-        uuid:"uuid",
-        href:JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+        uuid:           "uuid",
+        hrefStrong:     JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+        href:           JM.helpers.template("http://127.0.0.1/users/?name={user.name}"),
+        hrefStrongFail: JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.undefinedKey}"),
+        hreffail:       JM.helpers.template("http://127.0.0.1/users/?name={user.undefinedKey}"),
         objects:["objects",JM.map({
             href:JM.helpers.templateStrong("http://127.0.0.1/objects/{id}")
         })]
@@ -170,4 +173,88 @@ console.log('\n\n Data3:',data3);
 
     console.log('\n\n\n\ convert with template',converter(input));
 
+})();
+
+
+(function(){
+
+    var JM = require('./index.js');
+
+    var input = {
+        uuid:"1233123123",
+        user:{
+            name:"sergey"
+        },
+        objects:[
+            "atoken",
+            "btoken",
+            "ctoken",
+            "dtoken",
+            "etoken",
+            "Fplane",
+            "Splane",
+            "nodejs",
+            "memcache",
+            "sql",
+            "tpl",
+            "ejs"
+        ]
+    };
+
+    var converter = JM.makeConverter({
+        originalObject:'$root',
+        uuid:"uuid",
+        link:[
+            JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+            JM.helpers.templateStrong('<a href="{$root}">user</a>')
+        ],
+        objects:["objects",JM.map(JM.helpers.templateStrong("http://127.0.0.1/objects/{$root}"))]
+    });
+
+    console.log('\n\n\n\ convert with template & root',converter(input));
+})();
+
+(function(){
+    var JM = require('./index.js');
+
+    var converter = JM.makeConverter({
+        uuid:           JM.helpers.def("14")
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({}));
+})();
+
+
+(function(){
+    var JM = require('./index.js');
+
+    var converter = JM.makeConverter({
+        uuid:  [ 'uuid' , JM.helpers.def("14") ],
+        uuid2: [ 'uuid2', JM.helpers.valOrDef("15")]
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({
+        "uuid":"15",
+        "uuid2":"17"
+    }));
+})();
+
+
+(function(){
+    var JM = require('./index.js');
+
+    var converter = JM.makeConverter({
+        type:  [
+            'type' ,
+            JM.helpers.dict({
+                1:"fit",
+                2:"crop",
+                3:"fit"
+            })
+        ]
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({
+        "type":1
+    }));
 })();

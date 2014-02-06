@@ -280,6 +280,8 @@ Helpers
 ========
 
 
+template and templateStrong
+---------
 just example
 
 ```js
@@ -309,8 +311,11 @@ var input = {
 
 
 var converter = JM.makeConverter({
-    uuid:"uuid",
-    href:JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+    uuid:           "uuid",
+    hrefStrong:     JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+    href:           JM.helpers.template("http://127.0.0.1/users/?name={user.name}"),
+    hrefStrongFail: JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.undefinedKey}"),
+    hreffail:       JM.helpers.template("http://127.0.0.1/users/?name={user.undefinedKey}"),
     objects:["objects",JM.map({
         href:JM.helpers.templateStrong("http://127.0.0.1/objects/{id}")
     })]
@@ -324,22 +329,124 @@ Result:
 
 ```json 
  {
-  "uuid": "1233123123",
-  "href": "http://127.0.0.1/users/?name=sergey",
-  "objects": [ 
-      { "href": "http://127.0.0.1/objects/1001" },
-      { "href": "http://127.0.0.1/objects/1002" },
-      { "href": "http://127.0.0.1/objects/1003" },
-      { "href": "http://127.0.0.1/objects/1004" },
-      { "href": "http://127.0.0.1/objects/1005" },
-      { "href": "http://127.0.0.1/objects/1006" },
-      { "href": "http://127.0.0.1/objects/1007" },
-      { "href": "http://127.0.0.1/objects/1008" },
-      { "href": "http://127.0.0.1/objects/1009" },
-      { "href": "http://127.0.0.1/objects/1010" },
-      { "href": "http://127.0.0.1/objects/1011" },
-      { "href": "http://127.0.0.1/objects/1012" }
-     ]
- }
+   uuid:        '1233123123',
+   hrefStrong:  'http://127.0.0.1/users/?name=sergey',
+   href:        'http://127.0.0.1/users/?name=sergey',
+   hreffail:    'http://127.0.0.1/users/?name=undefined',
+   objects:
+    [ { href: 'http://127.0.0.1/objects/1001' },
+      { href: 'http://127.0.0.1/objects/1002' },
+      { href: 'http://127.0.0.1/objects/1003' },
+      { href: 'http://127.0.0.1/objects/1004' },
+      { href: 'http://127.0.0.1/objects/1005' },
+      { href: 'http://127.0.0.1/objects/1006' },
+      { href: 'http://127.0.0.1/objects/1007' },
+      { href: 'http://127.0.0.1/objects/1008' },
+      { href: 'http://127.0.0.1/objects/1009' },
+      { href: 'http://127.0.0.1/objects/1010' },
+      { href: 'http://127.0.0.1/objects/1011' },
+      { href: 'http://127.0.0.1/objects/1012' } ]
+  }
 
 ```
+
+templateStrong return undefined if one or more keys is undefined
+
+
+def
+----
+
+```js
+
+
+var JM = require('json-mapper');
+
+var converter = JM.makeConverter({
+    uuid:           JM.helpers.def("14")
+});
+
+console.log('\n\n\n convert with default \n\n', converter({}));
+
+```
+
+result
+```
+
+  {
+    uuid: '14'
+  }
+
+```
+
+JM.helpers.def(val) - always return val
+
+
+
+valOrDef
+-----
+
+```js
+
+    var JM = require('json-mapper');
+
+
+    var converter = JM.makeConverter({
+        uuid:  [ 'uuid' , JM.helpers.def("14") ],
+        uuid2: [ 'uuid2', JM.helpers.valOrDef("15")]
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({
+        "uuid":"15",
+        "uuid2":"17"
+    }));
+
+```
+
+result
+
+```json
+
+{
+    uuid: '14',
+    uuid2: '17'
+}
+
+```
+if input in null or undefined valOrDef(val) return val else return input
+
+
+dict
+----
+
+
+```js
+var JM = require('json-mapper');
+
+
+    var converter = JM.makeConverter({
+        type:  [
+            'type' ,
+            JM.helpers.dict({
+                1:"fit",
+                2:"crop",
+                3:"fit"
+            })
+        ]
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({
+        "type":1
+    }));
+
+```
+
+
+result
+
+```json
+
+ { type: 'fit' }
+
+```
+
+dict make a dictionary and return value by key
