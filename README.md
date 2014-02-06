@@ -61,7 +61,7 @@ var converter =  JM.makeConverter({
 
 ```
 
-If you wonna chain callbacks i have `ch` factory for you
+If you wonna chain callbacks use `ch` factory
 
 
 ```js
@@ -203,6 +203,91 @@ if val is array then return ch.apply(null,val); .
 
 if val is hash then return schema(val); .
 
+
+
+New feature is '$root' alias
+
+```js
+
+ var JM = require('json-mapper');
+
+ var input = {
+        uuid:"1233123123",
+        user:{
+            name:"sergey"
+        },
+        objects:[
+            "atoken",
+            "btoken",
+            "ctoken",
+            "dtoken",
+            "etoken",
+            "Fplane",
+            "Splane",
+            "nodejs",
+            "memcache",
+            "sql",
+            "tpl",
+            "ejs"
+        ]
+    };
+
+    var converter = JM.makeConverter({
+        originalObject:'$root',
+        uuid:"uuid",
+        link:[
+            JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+            JM.helpers.templateStrong('<a href="{$root}">user</a>')
+        ],
+        objects:["objects",JM.map(JM.helpers.templateStrong("http://127.0.0.1/objects/{$root}"))]
+    });
+
+    console.log('\n\n\n\ convert with template & root',converter(input));
+```
+
+result
+
+```json
+
+{
+    originalObject:  {
+        uuid: '1233123123',
+        user: { name: 'sergey' },
+        objects: [
+            'atoken',
+            'btoken',
+            'ctoken',
+            'dtoken',
+            'etoken',
+            'Fplane',
+            'Splane',
+            'nodejs',
+            'memcache',
+            'sql',
+            'tpl',
+            'ejs'
+        ]
+    },
+
+    uuid: '1233123123',
+    link: '<a href="http://127.0.0.1/users/?name=sergey">user</a>',
+    objects:  [
+        'http://127.0.0.1/objects/atoken',
+        'http://127.0.0.1/objects/btoken',
+        'http://127.0.0.1/objects/ctoken',
+        'http://127.0.0.1/objects/dtoken',
+        'http://127.0.0.1/objects/etoken',
+        'http://127.0.0.1/objects/Fplane',
+        'http://127.0.0.1/objects/Splane',
+        'http://127.0.0.1/objects/nodejs',
+        'http://127.0.0.1/objects/memcache',
+        'http://127.0.0.1/objects/sql',
+        'http://127.0.0.1/objects/tpl',
+        'http://127.0.0.1/objects/ejs'
+    ]
+}
+
+```
 
 Shut up and show me SIMPLE convert
 --------
