@@ -258,3 +258,32 @@ console.log('\n\n Data3:',data3);
         "type":1
     }));
 })();
+
+
+(function(){
+    var JM = require('./index.js');
+    var h = JM.helpers;
+
+    var converter = JM.makeConverter({
+        isGuest:['role', h.toBoolean],
+        isUser:['user', h.toBoolean],
+        userId:['userId', h.toNumber],
+        catalogId:['catalogId', h.toNumber],
+        catalogId2:['catalogId', h.toNumber, h.toUndefined],
+        catalogId3:['catalogId',h.filterUndefined(function(input){
+            // input always not undefined
+            return input + '1';
+        })],
+        catalogId4:['UndefinedCatalogId',h.filterUndefined(function(input){
+            // input always not undefined
+            return input + '1';
+        })]
+    });
+
+
+    console.log('\n\n\n convert to boolean and to number \n\n', converter({
+        "role":2,
+        "userId":'13',
+        "catalogId":'somethingLiteral'
+    }));
+})();

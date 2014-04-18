@@ -534,4 +534,47 @@ result
 
 ```
 
+toBoolean, toNumber, toUndefined, filterUndefined
+----------------------------------------------
+```js
+    var JM = require('json-mapper');
+    var h = JM.helpers;
+
+     var converter = JM.makeConverter({
+            isGuest:['role', h.toBoolean],
+            isUser:['user', h.toBoolean],
+            userId:['userId', h.toNumber],
+            catalogId:['catalogId', h.toNumber],
+            catalogId2:['catalogId', h.toNumber, h.toUndefined],
+            catalogId3:['catalogId',h.filterUndefined(function(input){
+                // input always not undefined
+                return input + '1';
+            })],
+            catalogId4:['UndefinedCatalogId',h.filterUndefined(function(input){
+                // input always not undefined
+                return input + '1';
+            })]
+        });
+
+
+        console.log('\n\n\n convert to boolean and to number \n\n', converter({
+            "role":2,
+            "userId":'13',
+            "catalogId":'somethingLiteral'
+        }));
+```
+
+result
+
+```json
+
+{ isGuest: true,
+  userId: 13,
+  catalogId: NaN,
+  catalogId3: 'somethingLiteral1'
+}
+
+```
+
+
 dict make a dictionary and return value by key

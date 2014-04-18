@@ -139,6 +139,14 @@ var makeCb = module.exports.makeCb = function(fn){
     }
 };
 
+var filterUndefined = function(converter){
+    return function(input){
+        if (typeof input !== 'undefined'){
+            return converter(input);
+        }
+    }
+};
+
 module.exports.helpers = {
     /**
      * Фабрика шаблонизатор подменяет {ключ} на соответствующее значение из input[ключ]
@@ -193,5 +201,16 @@ module.exports.helpers = {
         return function(key){
             return dictionary[key]
         }
+    },
+
+    filterUndefined:filterUndefined,
+    toBoolean:filterUndefined(Boolean),
+    toNumber:filterUndefined(Number),
+    toUndefined:function(input){
+        if (isNaN(input) || input === null || typeof input === 'undefined'){
+            return;
+        }
+        return input;
     }
+
 };
