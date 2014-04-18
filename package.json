@@ -1,29 +1,29 @@
 {
-    "name": "json-mapper",
-    "version": "0.0.4",
-    "description": "simple json mapper to ",
-    "main": "index.js",
-    "scripts": {
-        "test": "node test.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/dregenor/jsonMapper.git"
-    },
-    "keywords": [
-        "json",
-        "map",
-        "mapper",
-        "transform",
-        "transformation",
-        "json to json",
-        "converter"
-    ],
-    "author": "dregenor",
-    "license": "MIT",
-    "readmeFilename": "README.md",
-    "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
-    "bugs": {
-        "url": "https://github.com/dregenor/jsonMapper/issues"
-    }
+  "name": "json-mapper",
+  "version": "0.0.5",
+  "description": "simple json mapper to ",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dregenor/jsonMapper.git"
+  },
+  "keywords": [
+    "json",
+    "map",
+    "mapper",
+    "transform",
+    "transformation",
+    "json to json",
+    "converter"
+  ],
+  "author": "dregenor",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
+  "bugs": {
+    "url": "https://github.com/dregenor/jsonMapper/issues"
+  }
 }
