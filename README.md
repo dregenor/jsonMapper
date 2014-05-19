@@ -137,7 +137,7 @@ var result = converter(input); // should be {val:1}
 
 ```
 JM.ch function also can convert "some.path" to JM.getVal("some.path").  
-There is a map factory for arrays porcessing.
+There is a map factory for arrays processing.
 
 ```js
 
