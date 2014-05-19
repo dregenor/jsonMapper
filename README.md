@@ -1,18 +1,17 @@
 json-mapper
 ==========
 
-Simple json mapper
+Just a simple json mapper.
 
 - [How to use](#how-to-use)
-- [Shut up and show me SIMPLE convert](#shut-up-and-show-me-simple-convert)
+- [Shut up and show me a SIMPLE convertion](#shut-up-and-show-me-a-simple-convertion)
 - [Helpers](#helpers)
 
 
 How to use
 ----------
 
-Wery simple case
-
+Very simple case:
 
 ```js
 var input = {
@@ -39,19 +38,14 @@ var result = converter(input);
 console.log(result); // should be {name:"John"}
 ```
 
-for add more sugar i have factory getVal(path)
+Let's add a bit sugar by using factory method `getVal` 
 
 ```js
-
-
-
 var converter =  JM.makeConverter({
     name:JV.getVal("user.name");
 });
 ```
-
-And if i write just "user.name" it is be synonym JM.getVal("user.name")
-
+The syntax "user.name" equals JM.getVal("user.name")
 
 ```js
 
@@ -61,7 +55,7 @@ var converter =  JM.makeConverter({
 
 ```
 
-If you wonna chain callbacks use `ch` factory
+If you want to chain callbacks use `ch` factory
 
 
 ```js
@@ -103,9 +97,7 @@ var converter  = JM.makeConverter({
 var result = converter(input); // should be {val:1}
 
 ```
-
-
-for simplify JM.ch i use array
+This stuff can be simplified by using array, e.g.:
 
 ```js
 
@@ -144,11 +136,8 @@ var converter  = JM.makeConverter({
 var result = converter(input); // should be {val:1}
 
 ```
-
-
-JM.ch function also can convert "some.path" to JM.getVal("some.path")
-
-also for processing arrays present map factory
+JM.ch function also can convert "some.path" to JM.getVal("some.path").  
+There is a map factory for arrays porcessing.
 
 ```js
 
@@ -192,17 +181,16 @@ or
         val : ["locations", JM.map("x")]
     });
 ```
+Use `JM.makeCb(val)` to convert `path` to `getVal`
 
-for simple conver path to getVal callback i use JM.makeCb(val);
+Returning map:
 
-if val is function then it is just return.
-
-if val is string then return getVal(val).
-
-if val is array then return ch.apply(null,val); .
-
-if val is hash then return schema(val); .
-
+| input | return |
+|:-----:|:------:|
+| function | function |
+| string | getVal(val) |
+| array | ch.apply(null,val) |
+| hash  | schema(val) |
 
 
 New feature is '$root' alias
@@ -244,8 +232,7 @@ New feature is '$root' alias
 
     console.log('\n\n\n\ convert with template & root',converter(input));
 ```
-
-result
+Result:
 
 ```json
 
@@ -289,10 +276,8 @@ result
 
 ```
 
-Shut up and show me SIMPLE convert
+Shut up and show me a SIMPLE convertion
 --------
-
-ok
 
 ```js
 var input = {
@@ -342,8 +327,7 @@ var result = converter(input);
 console.log(result);
 
 ```
-
-result is
+Result:
 
 ```json
 {
@@ -360,14 +344,12 @@ result is
 }
 ```
 
-
 Helpers
 ========
 
-
 template and templateStrong
 ---------
-just example
+Just an example:
 
 ```js
 
@@ -435,15 +417,12 @@ Result:
 
 ```
 
-templateStrong return undefined if one or more keys is undefined
-
+`templateStrong` will return undefined if there is undefined keys
 
 def
 ----
 
 ```js
-
-
 var JM = require('json-mapper');
 
 var converter = JM.makeConverter({
@@ -454,7 +433,8 @@ console.log('\n\n\n convert with default \n\n', converter({}));
 
 ```
 
-result
+Result:
+
 ```
 
   {
@@ -463,8 +443,7 @@ result
 
 ```
 
-JM.helpers.def(val) - always return val
-
+JM.helpers.def(val) - always returns val
 
 
 valOrDef
@@ -487,7 +466,7 @@ valOrDef
 
 ```
 
-result
+Result:
 
 ```json
 
@@ -497,12 +476,11 @@ result
 }
 
 ```
-if input in null or undefined valOrDef(val) return val else return input
+If input is null or undefined valOrDef(val) will return val, otherwise input will be returned.
 
 
 dict
 ----
-
 
 ```js
 var JM = require('json-mapper');
@@ -524,9 +502,7 @@ var JM = require('json-mapper');
     }));
 
 ```
-
-
-result
+Result:
 
 ```json
 
@@ -564,7 +540,7 @@ toBoolean, toNumber, toUndefined, filterUndefined
         }));
 ```
 
-result
+Result is:
 
 ```json
 
@@ -576,5 +552,4 @@ result
 
 ```
 
-
-dict make a dictionary and return value by key
+Dict creates a dictionary and returns value by key.
