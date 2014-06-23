@@ -553,3 +553,16 @@ Result is:
 ```
 
 Dict creates a dictionary and returns value by key.
+
+
+v0.0.6
+------
+
+ - add example in test 'sentence test'
+ - modify readme (make this more readable ;)
+ - change jsdoc for functions
+ 
+ 
+ in feature
+ - make normal unit tests and try to do some optimization for more performance 
+ - write more usage examples
