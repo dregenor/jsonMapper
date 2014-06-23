@@ -1,6 +1,6 @@
 {
   "name": "json-mapper",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "simple json mapper to ",
   "main": "index.js",
   "scripts": {
