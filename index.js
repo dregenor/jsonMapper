@@ -1,5 +1,5 @@
 /**
- * получает значение для пути из объекта в случае если по указанному пути ничего нету то возвращает undrfined
+ * take the path and try solve this, if it is impossible return undefined
  *
  * @example
  *  var obj = {
@@ -14,8 +14,8 @@
  *
  *  var name = getValByPath('user.name',obj);
  *  var distance = getValByPath('place.distance',obj);
- * @param {string} path Путь для поиска
- * @param {Object} obj Объект в котором ищем
+ * @param {string} path Path to search
+ * @param {Object} obj object for search
  * @returns {*}
  */
 var getValByPath = module.exports.getValByPath = function (path,obj){
@@ -34,11 +34,10 @@ var getValByPath = module.exports.getValByPath = function (path,obj){
 };
 
 /**
- * принимает некоторое количество функций и выполняет их последовательно
- * передавая результат из одной функции в другую
+ * take some functions and call is one by one 
  * @example
  * var chain = ch(function(a){return a + 1},function(b){return b / 2});
- * chain(3); // выведет 2 потомучто (3 + 1) /2 = 2
+ * chain(3); // return 2 because (3 + 1) /2 = 2
  * @returns {Function}
  */
 var ch = module.exports.ch = function(){
@@ -54,8 +53,8 @@ var ch = module.exports.ch = function(){
 
 /**
  *
- * @param {object} input Объект для преобразования
- * @param {object} schema схема для преобразования
+ * @param {object} input object to transform
+ * @param {object} schema schema for transform
  * @returns {object}
  */
 var applySchema = module.exports.applySchema = function(input,schema){
@@ -75,7 +74,7 @@ var applySchema = module.exports.applySchema = function(input,schema){
 };
 
 /**
- * генерирует фабрику для преобразования объекта согласно схеме
+ * generate factory for transform object
  * @param schema
  * @returns {Function}
  */
@@ -97,7 +96,7 @@ var makeConverter = module.exports.makeConverter = function(schema){
 };
 
 /**
- * генерирует фабрику получающую значение по заранее заданному пути
+ * make getVal factory
  * @param pth
  * @returns {Function}
  */
@@ -109,7 +108,7 @@ var getVal = module.exports.getVal = function(pth){
 
 
 /**
- * генерирует фабрику делающую map с приминением заранее заданноко кэллбека
+ * make factory to make map with fn
  * @param {Function|String} fn
  * @returns {Function}
  */
@@ -125,6 +124,10 @@ module.exports.map = function(fn){
     }
 };
 
+/**
+ * make factory to transform
+ * @type {makeCb}
+ */
 var makeCb = module.exports.makeCb = function(fn){
     if (typeof fn === "string"){
         return getVal(fn);
@@ -149,13 +152,13 @@ var filterUndefined = function(converter){
 
 module.exports.helpers = {
     /**
-     * Фабрика шаблонизатор подменяет {ключ} на соответствующее значение из input[ключ]
+     * Template factory replace {key} to value from input[key]
      * @param {string} tpl
      * @returns {Function}
      */
     template:function(tpl,strong){
 
-        // парсим темплейт
+        // parce template
         var finder = /\{([^\}]+\})/g,
             paths =  tpl.match(finder);
 
@@ -163,7 +166,7 @@ module.exports.helpers = {
             paths = [];
         }
 
-        //делам геттеры для плейсхолдеров
+        //make getters to placeholder
         paths = paths.map(function(pth){
             return {
                 pth : pth,

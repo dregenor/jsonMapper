@@ -287,3 +287,59 @@ console.log('\n\n Data3:',data3);
         "catalogId":'somethingLiteral'
     }));
 })();
+
+(function(){
+
+    console.log('sentence test');
+
+    var input = {
+        user:{
+            name:"John",
+            last:"Doe",
+            id: 234,
+            strId:"234"
+        },
+        data:{
+            sentence: "the quick brown fox jumps over the lazy dog. Joe jumped over the lazy dog too."
+        },
+        anotherSentence: "I wanna see the sunshine after the rain. I wanna see bluebirds flying over the mountain again"
+    };
+
+    var JM = require('./index.js');
+
+
+    var universalConverter = function(input){
+        var sentences = [];
+        var replaceRegexp = /(\s+|\.(\s+)?|\,(\s+)?)/g // find . , "  "
+        Object.keys(input).forEach(function(key){
+            sentences.push(
+                input[key]
+                    .replace(replaceRegexp,' ') // replace unnecessary symbols
+                    .split(' ')
+                    .filter(function(word){
+                        return word !== ''; // filter empty words
+                    }));
+        })
+        return sentences;
+    };
+
+    var schema = {
+        newField: "user.name",        //map a field to another
+        fullName: JM.helpers.template("{user.name} {user.last}"), //map a pattern to a field
+        idToNum: ["user.strId", JM.helpers.toNumber],    //convert to number
+        idToString: ["user.id", JM.helpers.filterUndefined(String)],  // convert to string
+        sentences: [{
+            0:"data.sentence",
+            1:"anotherSentence"
+        }
+        , JM.helpers.filterUndefined(universalConverter)]
+    };
+
+    var converter =  JM.makeConverter(schema);
+
+    var result = converter(input);
+
+    console.log(JSON.stringify( result, null, 2));
+
+
+})();
