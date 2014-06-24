@@ -1,3 +1,4 @@
+module.exports.debugLog = function(){};
 /**
  * take the path and try solve this, if it is impossible return undefined
  *
@@ -22,11 +23,14 @@ var getValByPath = module.exports.getValByPath = function (path,obj){
     var trg = obj;
     var arr = path.split('.');
     arr.forEach(function(pthChunk){
-        if (typeof trg === "undefined" || typeof trg === "string" || typeof trg === "number"){
+        if (pthChunk === '$root'){
+            // don't step into
             return;
         }
-        if (pthChunk === '$root'){
-            return (trg);
+        if (typeof trg === "undefined" || trg === null){
+            module.exports.debugLog('path ' + path + ' has unavailable chunk' + pthChunk);
+            trg = void 0;
+            return;
         }
         trg = trg[pthChunk];
     });

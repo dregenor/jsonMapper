@@ -25,5 +25,9 @@
   "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
   "bugs": {
     "url": "https://github.com/dregenor/jsonMapper/issues"
+  },
+  "devDependencies": {
+      "chai": "*",
+      "mocha": "*"
   }
 }
