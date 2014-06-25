@@ -1,6 +1,6 @@
 var JM = require('../');
 
-describe('path tests', function(){
+describe('path', function(){
     var input = {
             user:{
                 name:"Alex",

@@ -555,10 +555,19 @@ Result is:
 Dict creates a dictionary and returns value by key.
 
 
+to run unit test run 
+   npm test
+
+v0.0.7
+-----
+ - add unit tests 
+ - minor changes
+ 
+
 v0.0.6
 ------
 
- - add example in test 'sentence test'
+ - add example 'sentence test'
  - modify readme (make this more readable ;)
  - change jsdoc for functions
  
@@ -566,3 +575,4 @@ v0.0.6
  in feature
  - make normal unit tests and try to do some optimization for more performance 
  - write more usage examples
+ 
