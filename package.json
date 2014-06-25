@@ -1,40 +1,40 @@
 {
-    "name": "json-mapper",
-    "version": "0.0.6",
-    "description": "simple json mapper to ",
-    "main": "index.js",
-    "scripts": {
-        "test-coverage": "mocha test/main.js --require blanket -R html-cov > coverage.html",
-        "test": "mocha test/main.js -R spec"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/dregenor/jsonMapper.git"
-    },
-    "keywords": [
-        "json",
-        "map",
-        "mapper",
-        "transform",
-        "transformation",
-        "json to json",
-        "converter"
-    ],
-    "author": "dregenor",
-    "license": "MIT",
-    "readmeFilename": "README.md",
-    "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
-    "bugs": {
-        "url": "https://github.com/dregenor/jsonMapper/issues"
-    },
-    "devDependencies": {
-        "chai": "*",
-        "mocha": "*",
-        "blanket": "^1.1.6"
-    },
-    "config": {
-        "blanket": {
-            "pattern": "json-mapper.js"
-        }
+  "name": "json-mapper",
+  "version": "0.0.7",
+  "description": "simple json mapper to ",
+  "main": "index.js",
+  "scripts": {
+    "test-coverage": "mocha test/main.js --require blanket -R html-cov > coverage.html",
+    "test": "mocha test/main.js -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dregenor/jsonMapper.git"
+  },
+  "keywords": [
+    "json",
+    "map",
+    "mapper",
+    "transform",
+    "transformation",
+    "json to json",
+    "converter"
+  ],
+  "author": "dregenor",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
+  "bugs": {
+    "url": "https://github.com/dregenor/jsonMapper/issues"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*",
+    "blanket": "^1.1.6"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "json-mapper.js"
     }
+  }
 }
