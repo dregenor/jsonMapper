@@ -555,7 +555,8 @@ Result is:
 Dict creates a dictionary and returns value by key.
 
 
-to run unit test run 
+to run unit test run
+
    npm test
 
 v0.0.7
