@@ -563,6 +563,7 @@ v0.0.8
 ------
  - make performance optimizations
  - add simple speed test "npm run speed"
+ - some results https://docs.google.com/spreadsheets/d/1VO_DpwQq8RKOMKlN9RIXHjblha6n58qBpKWWGardIJo/edit?usp=sharing
  
 v0.0.7
 -----
