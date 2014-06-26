@@ -559,7 +559,11 @@ to run unit test run
 ```
    npm test
 ```
-
+v0.0.8
+------
+ - make performance optimizations
+ - add simple speed test "npm run speed"
+ 
 v0.0.7
 -----
  - add unit tests 

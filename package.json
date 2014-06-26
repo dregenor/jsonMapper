@@ -1,11 +1,12 @@
 {
   "name": "json-mapper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "simple json mapper to ",
   "main": "index.js",
   "scripts": {
     "test-coverage": "mocha test/main.js --require blanket -R html-cov > coverage.html",
-    "test": "mocha test/main.js -R spec"
+    "test": "mocha test/main.js -R spec",
+    "speed": "node test/speedTest.js"
   },
   "repository": {
     "type": "git",

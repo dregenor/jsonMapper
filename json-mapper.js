@@ -15,25 +15,24 @@ module.exports.debugLog = function(){};
  *
  *  var name = getValByPath('user.name',obj);
  *  var distance = getValByPath('place.distance',obj);
- * @param {string} path Path to search
+ * @param {string|string[]} path Path to search
  * @param {Object} obj object for search
  * @returns {*}
  */
 var getValByPath = module.exports.getValByPath = function (path,obj){
-    var trg = obj;
-    var arr = path.split('.');
-    arr.forEach(function(pthChunk){
-        if (pthChunk === '$root'){
-            // don't step into
-            return;
+    var trg = obj,
+        arr = typeof path == 'string'?path.split('.'):path,
+        l = arr.length -1,
+        i=-1;
+    while(i++<l){
+        if (arr[i] !== '$root'){
+            if (typeof trg === "undefined" || trg === null){
+                module.exports.debugLog('path ' + path.toString() + ' has unavailable chunk' + arr[i]);
+                return void 0;
+            }
+            trg = trg[arr[i]];
         }
-        if (typeof trg === "undefined" || trg === null){
-            module.exports.debugLog('path ' + path + ' has unavailable chunk' + pthChunk);
-            trg = void 0;
-            return;
-        }
-        trg = trg[pthChunk];
-    });
+    }
     return trg;
 };
 
@@ -105,8 +104,9 @@ var makeConverter = module.exports.makeConverter = function(schema){
  * @returns {Function}
  */
 var getVal = module.exports.getVal = function(pth){
+    var pt = pth.split('.');
     return function(input){
-        return getValByPath(pth,input);
+        return getValByPath(pt,input);
     }
 };
 
