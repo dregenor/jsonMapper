@@ -15,7 +15,7 @@ module.exports.debugLog = function(){};
  *
  *  var name = getValByPath('user.name',obj);
  *  var distance = getValByPath('place.distance',obj);
- * @param {string} path Path to search
+ * @param {string|string[]} path Path to search
  * @param {Object} obj object for search
  * @returns {*}
  */
