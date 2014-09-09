@@ -99,6 +99,22 @@ var makeConverter = module.exports.makeConverter = function(schema){
 };
 
 /**
+ * generate a converter to map a converter to an array
+ * @param  convert
+ * @return {Function}
+ */
+module.exports.makeMapConverter = function(convert){
+
+    return function(input){
+        var result = [];
+        input.forEach(function(obj){
+            result.push(convert(obj));
+        });
+        return result;
+    };
+};
+
+/**
  * make getVal factory
  * @param pth
  * @returns {Function}

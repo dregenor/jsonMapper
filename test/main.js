@@ -6,6 +6,7 @@ global.expect = require('chai').expect;
 
 require('./path');
 require('./makeConverter');
+require('./makeMapConverter');
 require('./chain');
 require('./map');
 require('./helpers');
