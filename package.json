@@ -1,10 +1,12 @@
 {
-  "name": "jsonMapper",
-  "version": "0.0.1",
+  "name": "json-mapper",
+  "version": "0.0.8",
   "description": "simple json mapper to ",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test-coverage": "mocha test/main.js --require blanket -R html-cov > coverage.html",
+    "test": "mocha test/main.js -R spec",
+    "speed": "node test/speedTest.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +27,15 @@
   "gitHead": "f38a39cc13278827cb175344346d0e651149fd5e",
   "bugs": {
     "url": "https://github.com/dregenor/jsonMapper/issues"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*",
+    "blanket": "^1.1.6"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "json-mapper.js"
+    }
   }
 }

@@ -1,17 +1,17 @@
 json-mapper
 ==========
 
-Simple json mapper
+Just a simple json mapper.
 
 - [How to use](#how-to-use)
-- [Shut up and show me SIMPLE convert](#shut-up-and-show-me-simple-convert)
+- [Shut up and show me a SIMPLE convertion](#shut-up-and-show-me-a-simple-convertion)
 - [Helpers](#helpers)
 
 
 How to use
 ----------
 
-Wery simple case
+Very simple case:
 
 
 ```js
@@ -39,7 +39,7 @@ var result = converter(input);
 console.log(result); // should be {name:"John"}
 ```
 
-for add more sugar i have factory getVal(path)
+Let's add a bit sugar by using factory method `getVal` 
 
 ```js
 
@@ -49,9 +49,7 @@ var converter =  JM.makeConverter({
     name:JV.getVal("user.name");
 });
 ```
-
-And if i write just "user.name" it is be synonym JM.getVal("user.name")
-
+The syntax "user.name" equals JM.getVal("user.name")
 
 ```js
 
@@ -61,7 +59,7 @@ var converter =  JM.makeConverter({
 
 ```
 
-If you wonna chain callbacks i have `ch` factory for you
+If you want to chain callbacks use `ch` factory
 
 
 ```js
@@ -103,9 +101,7 @@ var converter  = JM.makeConverter({
 var result = converter(input); // should be {val:1}
 
 ```
-
-
-for simplify JM.ch i use array
+This stuff can be simplified by using array, e.g.:
 
 ```js
 
@@ -144,11 +140,8 @@ var converter  = JM.makeConverter({
 var result = converter(input); // should be {val:1}
 
 ```
-
-
-JM.ch function also can convert "some.path" to JM.getVal("some.path")
-
-also for processing arrays present map factory
+JM.ch function also can convert "some.path" to JM.getVal("some.path").  
+There is a map factory for arrays processing.
 
 ```js
 
@@ -192,22 +185,103 @@ or
         val : ["locations", JM.map("x")]
     });
 ```
+Use `JM.makeCb(val)` to convert `path` to `getVal`
 
-for simple conver path to getVal callback i use JM.makeCb(val);
+Returning map:
 
-if val is function then it is just return.
+| input | return |
+|:-----:|:------:|
+| function | function |
+| string | getVal(val) |
+| array | ch.apply(null,val) |
+| hash  | schema(val) |
 
-if val is string then return getVal(val).
 
-if val is array then return ch.apply(null,val); .
+New feature is '$root' alias
 
-if val is hash then return schema(val); .
+```js
 
+ var JM = require('json-mapper');
 
-Shut up and show me SIMPLE convert
+ var input = {
+        uuid:"1233123123",
+        user:{
+            name:"sergey"
+        },
+        objects:[
+            "atoken",
+            "btoken",
+            "ctoken",
+            "dtoken",
+            "etoken",
+            "Fplane",
+            "Splane",
+            "nodejs",
+            "memcache",
+            "sql",
+            "tpl",
+            "ejs"
+        ]
+    };
+
+    var converter = JM.makeConverter({
+        originalObject:'$root',
+        uuid:"uuid",
+        link:[
+            JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+            JM.helpers.templateStrong('<a href="{$root}">user</a>')
+        ],
+        objects:["objects",JM.map(JM.helpers.templateStrong("http://127.0.0.1/objects/{$root}"))]
+    });
+
+    console.log('\n\n\n\ convert with template & root',converter(input));
+```
+Result:
+
+```json
+
+{
+    originalObject:  {
+        uuid: '1233123123',
+        user: { name: 'sergey' },
+        objects: [
+            'atoken',
+            'btoken',
+            'ctoken',
+            'dtoken',
+            'etoken',
+            'Fplane',
+            'Splane',
+            'nodejs',
+            'memcache',
+            'sql',
+            'tpl',
+            'ejs'
+        ]
+    },
+
+    uuid: '1233123123',
+    link: '<a href="http://127.0.0.1/users/?name=sergey">user</a>',
+    objects:  [
+        'http://127.0.0.1/objects/atoken',
+        'http://127.0.0.1/objects/btoken',
+        'http://127.0.0.1/objects/ctoken',
+        'http://127.0.0.1/objects/dtoken',
+        'http://127.0.0.1/objects/etoken',
+        'http://127.0.0.1/objects/Fplane',
+        'http://127.0.0.1/objects/Splane',
+        'http://127.0.0.1/objects/nodejs',
+        'http://127.0.0.1/objects/memcache',
+        'http://127.0.0.1/objects/sql',
+        'http://127.0.0.1/objects/tpl',
+        'http://127.0.0.1/objects/ejs'
+    ]
+}
+
+```
+
+Shut up and show me a SIMPLE convertion
 --------
-
-ok
 
 ```js
 var input = {
@@ -257,8 +331,7 @@ var result = converter(input);
 console.log(result);
 
 ```
-
-result is
+Result:
 
 ```json
 {
@@ -275,12 +348,12 @@ result is
 }
 ```
 
-
 Helpers
 ========
 
-
-just example
+template and templateStrong
+---------
+Just an example:
 
 ```js
 
@@ -309,8 +382,11 @@ var input = {
 
 
 var converter = JM.makeConverter({
-    uuid:"uuid",
-    href:JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+    uuid:           "uuid",
+    hrefStrong:     JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.name}"),
+    href:           JM.helpers.template("http://127.0.0.1/users/?name={user.name}"),
+    hrefStrongFail: JM.helpers.templateStrong("http://127.0.0.1/users/?name={user.undefinedKey}"),
+    hreffail:       JM.helpers.template("http://127.0.0.1/users/?name={user.undefinedKey}"),
     objects:["objects",JM.map({
         href:JM.helpers.templateStrong("http://127.0.0.1/objects/{id}")
     })]
@@ -324,22 +400,190 @@ Result:
 
 ```json 
  {
-  "uuid": "1233123123",
-  "href": "http://127.0.0.1/users/?name=sergey",
-  "objects": [ 
-      { "href": "http://127.0.0.1/objects/1001" },
-      { "href": "http://127.0.0.1/objects/1002" },
-      { "href": "http://127.0.0.1/objects/1003" },
-      { "href": "http://127.0.0.1/objects/1004" },
-      { "href": "http://127.0.0.1/objects/1005" },
-      { "href": "http://127.0.0.1/objects/1006" },
-      { "href": "http://127.0.0.1/objects/1007" },
-      { "href": "http://127.0.0.1/objects/1008" },
-      { "href": "http://127.0.0.1/objects/1009" },
-      { "href": "http://127.0.0.1/objects/1010" },
-      { "href": "http://127.0.0.1/objects/1011" },
-      { "href": "http://127.0.0.1/objects/1012" }
-     ]
- }
+   uuid:        '1233123123',
+   hrefStrong:  'http://127.0.0.1/users/?name=sergey',
+   href:        'http://127.0.0.1/users/?name=sergey',
+   hreffail:    'http://127.0.0.1/users/?name=undefined',
+   objects:
+    [ { href: 'http://127.0.0.1/objects/1001' },
+      { href: 'http://127.0.0.1/objects/1002' },
+      { href: 'http://127.0.0.1/objects/1003' },
+      { href: 'http://127.0.0.1/objects/1004' },
+      { href: 'http://127.0.0.1/objects/1005' },
+      { href: 'http://127.0.0.1/objects/1006' },
+      { href: 'http://127.0.0.1/objects/1007' },
+      { href: 'http://127.0.0.1/objects/1008' },
+      { href: 'http://127.0.0.1/objects/1009' },
+      { href: 'http://127.0.0.1/objects/1010' },
+      { href: 'http://127.0.0.1/objects/1011' },
+      { href: 'http://127.0.0.1/objects/1012' } ]
+  }
 
 ```
+
+`templateStrong` will return undefined if there is undefined keys
+
+def
+----
+
+```js
+var JM = require('json-mapper');
+
+var converter = JM.makeConverter({
+    uuid:           JM.helpers.def("14")
+});
+
+console.log('\n\n\n convert with default \n\n', converter({}));
+
+```
+
+Result:
+
+```
+
+  {
+    uuid: '14'
+  }
+
+```
+
+JM.helpers.def(val) - always returns val
+
+
+valOrDef
+-----
+
+```js
+
+    var JM = require('json-mapper');
+
+
+    var converter = JM.makeConverter({
+        uuid:  [ 'uuid' , JM.helpers.def("14") ],
+        uuid2: [ 'uuid2', JM.helpers.valOrDef("15")]
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({
+        "uuid":"15",
+        "uuid2":"17"
+    }));
+
+```
+
+Result:
+
+```json
+
+{
+    uuid: '14',
+    uuid2: '17'
+}
+
+```
+If input is null or undefined valOrDef(val) will return val, otherwise input will be returned.
+
+
+dict
+----
+
+```js
+var JM = require('json-mapper');
+
+
+    var converter = JM.makeConverter({
+        type:  [
+            'type' ,
+            JM.helpers.dict({
+                1:"fit",
+                2:"crop",
+                3:"fit"
+            })
+        ]
+    });
+
+    console.log('\n\n\n convert with default \n\n', converter({
+        "type":1
+    }));
+
+```
+Result:
+
+```json
+
+ { type: 'fit' }
+
+```
+
+toBoolean, toNumber, toUndefined, filterUndefined
+----------------------------------------------
+```js
+    var JM = require('json-mapper');
+    var h = JM.helpers;
+
+     var converter = JM.makeConverter({
+            isGuest:['role', h.toBoolean],
+            isUser:['user', h.toBoolean],
+            userId:['userId', h.toNumber],
+            catalogId:['catalogId', h.toNumber],
+            catalogId2:['catalogId', h.toNumber, h.toUndefined],
+            catalogId3:['catalogId',h.filterUndefined(function(input){
+                // input always not undefined
+                return input + '1';
+            })],
+            catalogId4:['UndefinedCatalogId',h.filterUndefined(function(input){
+                // input always not undefined
+                return input + '1';
+            })]
+        });
+
+
+        console.log('\n\n\n convert to boolean and to number \n\n', converter({
+            "role":2,
+            "userId":'13',
+            "catalogId":'somethingLiteral'
+        }));
+```
+
+Result is:
+
+```json
+
+{ isGuest: true,
+  userId: 13,
+  catalogId: NaN,
+  catalogId3: 'somethingLiteral1'
+}
+
+```
+
+Dict creates a dictionary and returns value by key.
+
+
+to run unit test run
+```
+   npm test
+```
+v0.0.8
+------
+ - make performance optimizations
+ - add simple speed test "npm run speed"
+ - some results https://docs.google.com/spreadsheets/d/1VO_DpwQq8RKOMKlN9RIXHjblha6n58qBpKWWGardIJo/edit?usp=sharing
+ 
+v0.0.7
+-----
+ - add unit tests 
+ - minor changes
+ 
+
+v0.0.6
+------
+
+ - add example 'sentence test'
+ - modify readme (make this more readable ;)
+ - change jsdoc for functions
+ 
+ 
+ in feature
+ - make normal unit tests and try to do some optimization for more performance 
+ - write more usage examples
+ 
