@@ -83,18 +83,20 @@ var applySchema = module.exports.applySchema = function(input,schema){
  */
 var makeConverter = module.exports.makeConverter = function(schema){
 
+    var schemaConverter = {};
+
     if (Object.prototype.toString.call(schema) !== "[object Object]" && !(schema instanceof Array) ){
         throw new Error("schema must be Object or Array");
     }
-    // предварительно приводим схему к кэллбек виду
+    // generate callbacks for the scheme
     for (var par in schema ){
         if (schema.hasOwnProperty(par)){
-            schema[par] =  makeCb(schema[par]);
+            schemaConverter[par] =  makeCb(schema[par]);
         }
     }
 
     return function(input){
-        return applySchema(input,schema)
+        return applySchema(input,schemaConverter)
     }
 };
 
