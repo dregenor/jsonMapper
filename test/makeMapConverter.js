@@ -23,9 +23,9 @@ describe('makeMapConverter', function(){
 
         var output = arrConverter(input);
 
-        output.should.be.an.Array;
+        output.should.be.an('array');
         output.should.be.of.length(2);
-        output.should.contain({ a: '1'});
-        output.should.contain({ a: '3'});
+        output.should.deep.contains({ a: '2'});
+        output.should.deep.contains({ a: '3'});
     });
 })

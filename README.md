@@ -526,7 +526,7 @@ Result:
 
 ```
 
-toBoolean, toNumber, toUndefined, filterUndefined
+toBoolean, toNumber, toString, toUndefined, filterUndefined
 ----------------------------------------------
 
 ```js
@@ -537,6 +537,7 @@ var h = JM.helpers;
 var converter = JM.makeConverter({
     isGuest: ['role', h.toBoolean],
     isUser: ['user', h.toBoolean],
+    role: ['role', h.toString],
     userId: ['userId', h.toNumber],
     catalogId: ['catalogId', h.toNumber],
     catalogId2: ['catalogId', h.toNumber, h.toUndefined],
@@ -565,6 +566,7 @@ Result is:
 
 {
     isGuest: true,
+    role: '2',
     userId: 13,
     catalogId: NaN,
     catalogId3: 'somethingLiteral1'

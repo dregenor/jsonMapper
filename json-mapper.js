@@ -233,6 +233,13 @@ module.exports.helpers = {
     filterUndefined:filterUndefined,
     toBoolean:filterUndefined(Boolean),
     toNumber:filterUndefined(Number),
+    toString:function(input){
+        if (input === null || typeof input === 'undefined'){
+            return '';
+        }
+
+	return String(input)
+    },
     toUndefined:function(input){
         if (isNaN(input) || input === null || typeof input === 'undefined'){
             return void 0;
