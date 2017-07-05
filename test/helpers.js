@@ -165,6 +165,27 @@ describe('helpers', function(){
             should.equal(H.toBoolean(undefined),void 0);
       });  
     });
+
+    describe('helpers.toString', function(){
+      it('should be \'1000\'',function(){
+            should.equal(H.toString(1000),'1000');
+      });
+      it('should be \'true\'',function(){
+            should.equal(H.toString(true),'true');
+      });
+      it('should be \'false\'',function(){
+            should.equal(H.toString(false),'false');
+      });
+      it('should still be a string',function(){
+            should.equal(H.toString('test'),'test');
+      });
+      it('should be empty if null',function(){
+            should.equal(H.toString(null),'');
+      });
+      it('should be empty if undefined',function(){
+            should.equal(H.toString(undefined),'');
+      });
+    });
     
     
 });
