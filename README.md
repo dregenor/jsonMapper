@@ -583,6 +583,17 @@ to run unit test run
    npm test
 ```
 
+v0.0.11
+-------
+sorry i've skipped several versions
+
+- Add toString helper and fix unit tests (by alissonperez)
+- clean package.json (by ahiipsa)
+
+v0.0.9
+- fix for #10 "makeConverter modifies its arguments"
+- Add makeMapConverter (alexwhitman)
+
 v0.0.8
 ------
 
