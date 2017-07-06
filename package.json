@@ -13,8 +13,7 @@
     "url": "git://github.com/dregenor/jsonMapper.git"
   },
   "files": [
-    "index.js",
-    "json-mapper"
+    "json-mapper.js"
   ],
   "keywords": [
     "json",
