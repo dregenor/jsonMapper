@@ -583,6 +583,9 @@ to run unit test run
    npm test
 ```
 
+v0.0.12
+- fixed package.json (thanks to alissonperez)
+
 v0.0.11
 -------
 sorry i've skipped several versions
